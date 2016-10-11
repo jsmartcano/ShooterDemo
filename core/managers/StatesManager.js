@@ -7,7 +7,7 @@ function StatesManager() {
 			
 		var states = new Array();	// Contiene todos los estados del player
 		var stack = new StackClass();	// Pila con los estados en uso
-		var debug = Player.DebugManager.say;
+		var debug = game.DebugManager.say;
 		var name = "StatesManager";
 		
 		/**
@@ -16,7 +16,7 @@ function StatesManager() {
 		function _start(state) {	
 			debug(name + " start " + state);
 			// transicion al estado incial
-			changeState( state );
+			_changeState( state );
 		};
 		
 		function _currentState() {
@@ -101,7 +101,7 @@ function StatesManager() {
 		 */
 		function getState(state,callback) {	
 			
-			var fileState = Player.Utils.getFile(state);
+			var fileState = game.Utils.getFile(state);
 			
 			for (var i=0;i<states.length;i++) {
 				if (states[i]==fileState) {
@@ -110,7 +110,7 @@ function StatesManager() {
 				}
 			}
 			
-			Player.Utils.loadStateScript(state);
+			game.Utils.loadStateScript(state);
 			var timer = setInterval(function() {
 					
 					//debug("loading state... " + state );

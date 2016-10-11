@@ -1,0 +1,9 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<map>
+  <level>1</level>
+  <element id="Plane_1" type="PLANE">
+    <mesh>Plane.mesh</mesh>
+    <x>0.00</x> <y>0.00</y> <z>0.00</z>
+    <rw>1.00</rw> <rx>0.00</rx> <ry>0.00</ry> <rz>0.00</rz>
+  </element>
+</map>

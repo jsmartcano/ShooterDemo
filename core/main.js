@@ -5,19 +5,18 @@
  */
 
 // Sistema principal. Espacio de nombres principal de la app
-var game = {};
+var game = null;
 
 
 $(document).ready(function() {  
-		
-	game._scene = null;
-	game._renderer = null;
-	game._camera = null;
-	game._board = new BoardClass();  // Tablero del juego
 	
-	// Inicializa subsistemas 
+	game = new GameClass();
+	
+	// Inicializa subsistemas	
+	game.Utils = new UtilsClass();
 	game.DebugManager =  new DebugManager();
 	game.StatesManager = new StatesManager();
+	game.RouteManager = new RouteManager();
 
 			
 	// Start!!
@@ -193,10 +192,10 @@ $(document).ready(function() {
 //
 //$(document).ready(function() {
 //	
-game._camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 0.1, 1000 );
-game._renderer = new THREE.CanvasRenderer;
-game._scene = new THREE.Scene();
-game._renderer.render(game._scene,game._camera);
+//game._camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 0.1, 1000 );
+//game._renderer = new THREE.CanvasRenderer;
+//game._scene = new THREE.Scene();
+//game._renderer.render(game._scene,game._camera);
 //	game = new gameClass(); 
 //	game.createScene();
 //	game._camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 0.1, 1000 );
