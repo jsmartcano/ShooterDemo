@@ -21,11 +21,12 @@ ID5 = ' '*8
 
 # ----------------------------------------------------------------------
 def getCurrentPath():
-    arr = os.path.dirname(__file__).split("/")
-    folder = ""
-    for i in range(len(arr)-1):
-        folder = folder + arr[i] + "/"
-    return folder + "output.xml"
+    #arr = os.path.dirname(__file__).split("/")
+    #folder = ""
+    #for i in range(len(arr)-1):
+    #    folder = folder + arr[i] + "/"
+    #return folder + "output.xml"
+    return "C:\wamp\www\ShooterDemo\media\levels\level1\output.xml"
 
 # Función que hace la exportación de un tipo de elemento
 # que es recibido por parámetro
@@ -37,8 +38,8 @@ def exportElements(element):
         eName = el.name    	
         if (eName.find(element) != -1):
             elCounter = elCounter + 1
-            print(ID1 + '<element id="'+element+'_'+str(elCounter)+'" type="'+element.upper()+'">')
-            print(ID2 + "<mesh>"+element+".mesh</mesh>")  
+            print(ID1 + '<element id="'+element+'" index="'+str(elCounter)+'" type="'+element.upper()+'">')
+            print(ID2 + "<mesh>"+element+"</mesh>")  
             x,y,z = el.location
             print (ID2 + '<x>%.2f</x> <y>%.2f</y> <z>%.2f</z>' % (round(x,2),round(y,2),round(z,2)))
             rw,rx,ry,rz = el.rotation_quaternion
@@ -58,6 +59,7 @@ print ("<map>")
 print(ID1 + "<level>"+str(LEVEL)+"</level>")
 
 exportElements("Plane")
+exportElements("Camera")
 
 print ("</map>")
 

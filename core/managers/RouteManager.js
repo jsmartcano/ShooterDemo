@@ -4,22 +4,36 @@
  */
 function RouteManager() { 
 	
-	var coreFolder = "core/";
-	var statesFolder = "states/";
-
+	var root = "./";
+	
+	// core y subcarpetas
+	var core = root + "core/";
+	var states = core + "states/";
+	
+	// media y subcarpetas
+	var media = root + "media/";
+	var levels = media + "levels/";
 	
 		
 	// ---------------------------------------------------------------------
-	this.getRootPath = function() {
-		return "./";
-	};
+	function _getRoot() {	return root; };
 	
-	this.getCorePath = function() {
-		return this.getRootPath() + coreFolder;
-	};
-			
-	this.getStatesPath = function() {
-		return this.getCorePath() + statesFolder;
+	// ---------------------------------------------------------------------
+	function _getCore() { return core; 	};
+	function _getStates() { return states; 	};
+	
+	// ---------------------------------------------------------------------
+	function _getMedia() { return media; };
+	function _getLevels() { return levels; }
+	
+	return {
+		getRoot: _getRoot,
+		
+		getCore: _getCore,
+		getStates: _getStates,
+		
+		getMedia: _getMedia,
+		getLevels: _getLevels
 	};
 			
 }

@@ -17,7 +17,7 @@ function UtilsClass() {
 	    return !jQuery.isArray( obj ) && (obj - parseFloat( obj ) + 1) >= 0;
 	};
 
-	this.parsearXML = function(data) {
+	this.parseXML = function(data) {
 		var result=null;
 		game.DebugManager.say("In parsearXML(data) --> "+typeof data);
 		var tipo = typeof data;
@@ -44,19 +44,11 @@ function UtilsClass() {
 	 * Carga de script de estado
 	 */
 	this.loadStateScript = function(id) {
-	   var src= game.RouteManager.getStatesPath() + id + ".js";	  
+	   var src= game.RouteManager.getStates() + id + ".js";	  
 	   this.loadScript(src,"text/javascript","script");
 	};
 	
-	/**
-	 * Carga de script de contenido, (clases contenedoras)
-	 */
-	this.loadContentScript = function(scriptName) {
-	   var src= game.RouteManager.getClassPath() + scriptName + ".js";
-	   this.loadScript(src,"text/javascript","script");
-	};
-	
-	
+		
 	/**
 	 * Carga script
 	 * 

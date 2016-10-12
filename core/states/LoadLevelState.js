@@ -13,67 +13,81 @@ function LoadLevelState() {
 	
 			
 	function _enter() {
-		game.DebugManager.say(_toString() + " enter");	
+		game.DebugManager.say(_toString() + " enter");
+		loadLevel();
 	};
 	
-//	function loadContentXml(callback) {
-//		var path = "media/levels/level1/output.xml";
-//		$.ajax({
-//			url: path,
-//			async: false,
-//			dataType: (BrowserDetect.browser == "EXPLORER") ? 'text' : 'xml', // Reconocemos el browser.
-//				    success: function(pData){ 
-//						var data = parseXML(pData);
-//						$(data).find("vertex").each(function(index) {
-//							var index = parseInt($(this).attr("number"),10);
-//							var type = $(this).attr("type");
-//							var x = parseFloat($(this).children("x").text(),10);
-//							var y = parseFloat($(this).children("y").text(),10);
-//							var z = parseFloat($(this).children("z").text(),10);
-//							
-//							var box = new BoxClass(index,type,x,y,z);
-//							game._board._boxes[index] = box;
-//						});
-//						callback();
-//											
-//				    },
-//				  	error: function() {
-//				  								
-//				    }
-//				    
-//				    
-//				  });
-//		};
-//		
-//		loadContentXmlOk = function() {
-//			game.StatesManager.changeState("LoadMeshState");
-//		};
-//		
-//		/**
-//		 * Serializar ajax
-//		 */
-//		this.parseXML = function(data) {
-//			var result=null;
-//			//Player.DebugManager.say("In parsearXML(data) --> "+typeof data);
-//			var tipo = typeof data;
-//			if(tipo == "string"){
-//				if (typeof window.DOMParser != "undefined") 
-//				{
-//				    var parser = new DOMParser();
-//				    result = parser.parseFromString(data, "text/xml");
-//				} 
-//				else if (typeof window.ActiveXObject != "undefined") 
-//				{ 
-//					result = new ActiveXObject('Microsoft.XMLDOM');      
-//					result.async = false;      
-//					result.loadXML(data);
-//				}			
-//			} else if (tipo == "object"){       
-//				result = data;    
-//			}
-//			return result;
-//		};
-		
+	function loadLevel() {
+		var levelFile = game.RouteManager.getLevels() + "level" + game.getCurrentLevel() + "/output.xml";
+		game.DebugManager.say("Loading level ... " + levelFile);
+		loadContent(levelFile, loadContentComplete);
+	}
+	
+	function loadContentComplete() {
+		game.DebugManager.say("Load level complete");
+		game.StatesManager.changeState("CreateLevelState");
+	}
+	
+	function loadContent(file,callback) {
+		$.ajax({
+			url: file,
+			async: false,
+			dataType: (BrowserDetect.browser == "EXPLORER") ? 'text' : 'xml', // Reconocemos el browser.
+				    success: function(pData){ 
+				    	var data = game.Utils.parseXML(pData);
+				    	parse(data);
+				    	callback();
+				    }
+		});
+	}
+	
+	function parse(data) {
+		var levelPath = game.RouteManager.getLevels() + "level" + game.getCurrentLevel();
+		$(data).find("element").each(function(index) {
+			var type = $(this).attr("type");
+			var index = parseInt($(this).attr("index"),10);
+			var mesh = $(this).children("mesh").text();
+			var x = parseFloat($(this).children("x").text());
+			var y = parseFloat($(this).children("y").text());
+			var z = parseFloat($(this).children("z").text());
+			var rx = parseFloat($(this).children("rx").text());
+			var ry = parseFloat($(this).children("ry").text());
+			var rz = parseFloat($(this).children("rz").text());
+			var rw = parseFloat($(this).children("rw").text());
+			switch (type)
+			{
+				case "PLANE":
+					var loader = new THREE.ColladaLoader();
+					loader.load(levelPath + "/" + mesh + ".dae", function(result) {
+						//game.scene.add(result.scene);
+						var asset = new AssetClass();
+						asset.three = result;
+						asset.x = x; asset.y = y; asset.z = z;
+						asset.rx = rx; asset.ry = ry; asset.rz = rz; asset.rw = rw;
+						asset.type = type;
+						asset.index = index;
+						asset.mesh = mesh;
+						game.assets.push(asset);
+					});
+					break;
+				case "CAMERA":
+					
+					var camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 1, 10000);
+					var asset = new AssetClass();
+					asset.three = camera;
+					asset.x = x; asset.y = y; asset.z = z;
+					asset.rx = rx; asset.ry = ry; asset.rz = rz; asset.rw = rw;
+					asset.type = type;
+					asset.index = index;
+					game.cameras.push(asset);
+					break;
+			}
+			
+			
+			
+			
+		});
+	}		
 
 	
 	function _toString() {
