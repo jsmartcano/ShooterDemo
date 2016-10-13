@@ -30,7 +30,9 @@ function CreateLevelState() {
 		 game.scene.add(axes);		
 		 
 		 var ambientLight = new THREE.AmbientLight(0x111111);
-		 ambientLight.position.y = 100;
+		 ambientLight.position.x = 0;
+		 ambientLight.position.y = 0;
+		 ambientLight.position.z = 10;
 		 game.scene.add(ambientLight);
 			
 		 game.renderer = new THREE.WebGLRenderer();
