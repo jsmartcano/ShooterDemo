@@ -13,6 +13,7 @@ function RouteManager() {
 	// media y subcarpetas
 	var media = root + "media/";
 	var levels = media + "levels/";
+	var models = media + "models/";
 	
 		
 	// ---------------------------------------------------------------------
@@ -25,6 +26,7 @@ function RouteManager() {
 	// ---------------------------------------------------------------------
 	function _getMedia() { return media; };
 	function _getLevels() { return levels; }
+	function _getModels() { return models; }
 	
 	return {
 		getRoot: _getRoot,
@@ -33,7 +35,8 @@ function RouteManager() {
 		getStates: _getStates,
 		
 		getMedia: _getMedia,
-		getLevels: _getLevels
+		getLevels: _getLevels,
+		getModels: _getModels
 	};
 			
 }

@@ -14,16 +14,14 @@ function PlayState() {
 			
 	function _enter() {
 		game.DebugManager.say(_toString() + " enter");
+		requestAnimationFrame(animate);
 	};
 	
 		
-//requestAnimationFrame(animate);
-//	function animate() {
-//		requestAnimationFrame(animate);
-//		game.renderer.render(game.scene,game.camera);
-//		
-//	
-//	}	
+	function animate() {
+		requestAnimationFrame(animate);
+		game.renderer.render(game.scene,game.camera);
+	}	
 	
 	function _toString() {
 		return "PlayState";

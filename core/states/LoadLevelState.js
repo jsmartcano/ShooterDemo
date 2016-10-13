@@ -8,7 +8,7 @@ function LoadLevelState() {
 	 * Salida del estado
 	 */
 	function _exit() {
-		game.DebugManager.say(toString() + ": exit");
+		game.DebugManager.say(_toString() + ": exit");
 	};
 	
 			
@@ -42,7 +42,10 @@ function LoadLevelState() {
 	}
 	
 	function parse(data) {
+		
 		var levelPath = game.RouteManager.getLevels() + "level" + game.getCurrentLevel();
+		var modelsPath = game.RouteManager.getModels();
+		
 		$(data).find("element").each(function(index) {
 			var type = $(this).attr("type");
 			var index = parseInt($(this).attr("index"),10);
@@ -58,12 +61,24 @@ function LoadLevelState() {
 			{
 				case "PLANE":
 					var loader = new THREE.ColladaLoader();
-					loader.load(levelPath + "/" + mesh + ".dae", function(result) {
-						//game.scene.add(result.scene);
+					loader.load(levelPath + "/" + mesh + ".dae", function(result) {						
 						var asset = new AssetClass();
 						asset.three = result;
-						asset.x = x; asset.y = y; asset.z = z;
-						asset.rx = rx; asset.ry = ry; asset.rz = rz; asset.rw = rw;
+						asset.x = x; asset.y = z; asset.z = -y;
+						asset.rx = rx; asset.ry = rz; asset.rz = -ry; asset.rw = rw;
+						asset.type = type;
+						asset.index = index;
+						asset.mesh = mesh;
+						game.assets.push(asset);
+					});
+					break;
+				case "PLAYER":
+					var loader = new THREE.ColladaLoader();
+					loader.load(modelsPath + type.toLowerCase() + "/" + mesh + ".dae", function(result) {						
+						var asset = new AssetClass();
+						asset.three = result;
+						asset.x = x; asset.y = z; asset.z = -y;
+						asset.rx = rx; asset.ry = rz; asset.rz = -ry; asset.rw = rw;
 						asset.type = type;
 						asset.index = index;
 						asset.mesh = mesh;
@@ -75,8 +90,8 @@ function LoadLevelState() {
 					var camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 1, 10000);
 					var asset = new AssetClass();
 					asset.three = camera;
-					asset.x = x; asset.y = y; asset.z = z;
-					asset.rx = rx; asset.ry = ry; asset.rz = rz; asset.rw = rw;
+					asset.x = x; asset.y = z; asset.z = -y;
+					asset.rx = rx; asset.ry = rz; asset.rz = -ry; asset.rw = rw;
 					asset.type = type;
 					asset.index = index;
 					game.cameras.push(asset);
