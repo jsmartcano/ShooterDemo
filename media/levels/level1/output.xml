@@ -1,11 +1,7 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <map>
   <level>1</level>
-  <element id="plane" index="1" type="PLANE">
-    <mesh>plane</mesh>
-    <x>0.00</x> <y>0.00</y> <z>0.00</z>
-    <rw>1.00</rw> <rx>0.00</rx> <ry>0.00</ry> <rz>0.00</rz>
-  </element>
+ 
   <element id="camera" index="1" type="CAMERA">
     <mesh>camera</mesh>
     <x>1.00</x> <y>-4.00</y> <z>1.00</z>
@@ -13,7 +9,7 @@
   </element>
   <element id="player" index="1" type="PLAYER">
     <mesh>player</mesh>
-    <x>0.86</x> <y>6.25</y> <z>2.57</z>
+    <x>0.86</x> <y>0</y> <z>2.57</z>
     <rw>1.00</rw> <rx>0.00</rx> <ry>0.00</ry> <rz>0.00</rz>
   </element>
 </map>
