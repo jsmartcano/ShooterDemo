@@ -2,15 +2,15 @@
 <html>
 <head>
 	<title></title>
+	
+	<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+	
 	<script type="text/javascript" src="includes/jquery-1.6.3.min.js"></script>
 	<script type="text/javascript" src="includes/browser.detect.js"></script>
 	
 	<script src="includes/build/three.js"></script>
-	<script src="includes/js/loaders/ColladaLoader.js"></script>
-	<script src="includes/js/renderers/WebGLRenderer.js"></script>
-	<script type="text/javascript" src="includes/js/loaders/JSONLoader.js"></script>
-	<script type="text/javascript" src="includes/js/renderers/CanvasRenderer.js"></script>
-	<script type="text/javascript" src="includes/js/renderers/Projector.js"></script>
+	<script src="includes/examples/js/loaders/ColladaLoader.js"></script>
+
 			
 	<script type="text/javascript" src="core/main.js"></script>
 	<script type="text/javascript" src="core/managers/StatesManager.js"></script>
@@ -25,9 +25,9 @@
 	
 
 	<style>
-		body { margin: 0; }
-		canvas { width: 100%; height: 100%; }
-		#webGl-salida { width: 100%; height: 100%; }
+		body { margin: 0; overflow:hidden; }
+		canvas { width: 100%; height: 100%; overflow:hidden;}
+		#webGl-salida { width: 100%; height: 100%; overflow:hidden;}
 	</style>
 </head>
 <body>

@@ -61,6 +61,7 @@ function LoadLevelState() {
 			{
 				case "PLANE":
 					var loader = new THREE.ColladaLoader();
+					loader.options.convertUpAxis = true;
 					loader.load(levelPath + "/" + mesh + ".dae", function(result) {						
 						var asset = new AssetClass();
 						asset.three = result;
@@ -74,6 +75,7 @@ function LoadLevelState() {
 					break;
 				case "PLAYER":
 					var loader = new THREE.ColladaLoader();
+					loader.options.convertUpAxis = true;
 					loader.load(modelsPath + type.toLowerCase() + "/" + mesh + ".dae", function(result) {						
 						var asset = new AssetClass();
 						asset.three = result;
@@ -85,25 +87,47 @@ function LoadLevelState() {
 						game.assets.push(asset);
 					});
 					break;
-				case "CAMERA":
-					
-					var camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 1, 10000);
-					var asset = new AssetClass();
-					asset.three = camera;
-					asset.x = x; asset.y = z; asset.z = -y;
-					asset.rx = rx; asset.ry = rz; asset.rz = -ry; asset.rw = rw;
-					asset.type = type;
-					asset.index = index;
-					game.cameras.push(asset);
-					break;
+				
 			}
-			
-			
-			
-			
 		});
+		
+		loadCameras();
 	}		
 
+	function loadCameras() {
+		var levelPath = game.RouteManager.getLevels() + "level" + game.getCurrentLevel();
+		var loader = new THREE.ColladaLoader();
+		loader.options.convertUpAxis = true;
+		loader.load(levelPath + "/cameras.dae", function(result) {
+			
+			for (var i=0; i<result.scene.children.length; i++) {
+				var type = "camera";
+				var index = i;
+				var item = result.scene.children[i];
+				var x = item.position.x;
+				var y = item.position.y;
+				var z = item.position.z;
+				var rx = item.quaternion._x;
+				var ry = item.quaternion._y;
+				var rz = item.quaternion._z;
+				var rw = item.quaternion._w;
+				
+				var camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 1, 10000);
+				var asset = new AssetClass();
+				asset.three = camera;
+				asset.x = x; asset.y = z; asset.z = -y;
+				asset.rx = rx; asset.ry = rz; asset.rz = -ry; asset.rw = rw;
+				asset.type = type;
+				asset.index = index;
+				game.cameras.push(asset);
+			};
+			
+				
+			
+		
+
+		});
+	}
 	
 	function _toString() {
 		return "LoadLevelState";

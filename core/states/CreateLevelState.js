@@ -29,13 +29,15 @@ function CreateLevelState() {
 		 var axes = new THREE.AxisHelper(100);
 		 game.scene.add(axes);		
 		 
-		 var ambientLight = new THREE.AmbientLight(0x111111);
+		 var ambientLight = new THREE.AmbientLight(0x404040);
 		 ambientLight.position.x = 0;
-		 ambientLight.position.y = 0;
-		 ambientLight.position.z = 10;
+		 ambientLight.position.y = 50;
+		 ambientLight.position.z = 0;
 		 game.scene.add(ambientLight);
 			
+		 //game.renderer = new THREE.WebGLRenderer();
 		 game.renderer = new THREE.WebGLRenderer();
+		 game.renderer.setPixelRatio( window.devicePixelRatio );
 		 game.renderer.setClearColor(0x033000);
 		 game.renderer.setSize(window.innerWidth, window.innerHeight);
 		 
@@ -55,51 +57,64 @@ function CreateLevelState() {
 	
 	function setupWORLD() {
 		
-		var size = 10;
-		var step = 1;
-
-		var gridHelper = new THREE.GridHelper( size, step );
-		game.scene.add( gridHelper );
+		var helper = new THREE.GridHelper( 40, 40 );
+		game.scene.add(helper);
 		
 		// Camera
-		var camera = game.cameras[0];
-		game.camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 0.1, 1000 );
-		game.camera.position.x = camera.x;
-		game.camera.position.y = camera.y;
-		game.camera.position.z = camera.z;
-				
-		//game.camera.lookAt(new THREE.Vector3(0,0,0));
+		game.camera = game.cameras[0].three;
+		game.camera.position.x = game.cameras[0].x;
+		game.camera.position.y = game.cameras[0].y;
+		game.camera.position.z = game.cameras[0].z;
+			
 		
-		var q = new THREE.Quaternion(camera.x,camera.y,camera.z,camera.w);		
+		var q = new THREE.Quaternion(game.cameras[0].rx,
+									 game.cameras[0].ry,
+									 game.cameras[0].rz,
+									 game.cameras[0].rw);	
+		
+		
+		
 		//game.camera.setRotationFromQuaternion(q);
 		
+		//game.camera.lookAt(new THREE.Vector3(0,0,0));
 		
 		// Assets
 		for (var i=0;i<game.assets.length;i++){
 			var asset = game.assets[i];
 			var threeAsset = asset.three;
-					
+
 			game.scene.add(threeAsset.scene);
-			
 			threeAsset.scene.position.x = asset.x;
 			threeAsset.scene.position.y = asset.y;
 			threeAsset.scene.position.z = asset.z;
-			
-			threeAsset.scene.rotateX(Math.PI/360);
-		
-			threeAsset.scene.scale.set(1,1,1);
-			
-			var q = new THREE.Quaternion(asset.x,asset.y,asset.z,asset.w);
-			//threeAsset.scene.setRotationFromQuaternion(q);
-			
+
+			var q = new THREE.Quaternion(asset.rx,asset.ry,asset.rz,asset.rw);
+			threeAsset.scene.setRotationFromQuaternion(q);	
+			//threeAsset.scene.updateMatrix();			
 		}
-		
-				
+
 		// Go!
 		game.StatesManager.changeState("PlayState");
 		
 	}
 	
+	
+	function rotateObject(object,degreeX=0, degreeY=0, degreeZ=0)
+	{
+
+		   degreeX = (degreeX * Math.PI)/180;
+		   degreeY = (degreeY * Math.PI)/180;
+		   degreeZ = (degreeZ * Math.PI)/180;
+
+		   object.rotateX(degreeX);
+		   object.rotateY(degreeY);
+		   object.rotateZ(degreeZ);
+
+		};
+
+
+	
+		
 	
 	function _toString() {
 		return "CreateLevelState";
