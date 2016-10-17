@@ -65,18 +65,17 @@ function CreateLevelState() {
 		game.camera.position.x = game.cameras[0].x;
 		game.camera.position.y = game.cameras[0].y;
 		game.camera.position.z = game.cameras[0].z;
-			
-		
+				
 		var q = new THREE.Quaternion(game.cameras[0].rx,
 									 game.cameras[0].ry,
 									 game.cameras[0].rz,
-									 game.cameras[0].rw);	
+									 game.cameras[0].rw);
 		
-		
-		
+	
+				
 		//game.camera.setRotationFromQuaternion(q);
 		
-		//game.camera.lookAt(new THREE.Vector3(0,0,0));
+		game.camera.lookAt(new THREE.Vector3(0,0,0));
 		
 		// Assets
 		for (var i=0;i<game.assets.length;i++){

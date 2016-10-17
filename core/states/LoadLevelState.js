@@ -115,8 +115,8 @@ function LoadLevelState() {
 				var camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 1, 10000);
 				var asset = new AssetClass();
 				asset.three = camera;
-				asset.x = x; asset.y = z; asset.z = -y;
-				asset.rx = rx; asset.ry = rz; asset.rz = -ry; asset.rw = rw;
+				asset.x = x; asset.y = y; asset.z = z;
+				asset.rx = rx; asset.ry = ry; asset.rz = rz; asset.rw = rw;
 				asset.type = type;
 				asset.index = index;
 				game.cameras.push(asset);
