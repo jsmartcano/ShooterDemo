@@ -27,9 +27,9 @@ def getCurrentPath():
     #    folder = folder + arr[i] + "/"
     #return folder + "output.xml"
     
-   # return "C:\wamp64\www\ShooterDemo\media\levels\level1\output.xml"
+    return "C:\wamp64\www\ShooterDemo\media\levels\level1\output.xml"
     
-    return "C:\wamp\www\ShooterDemo\media\levels\level1\output.xml"
+    #return "C:\wamp\www\ShooterDemo\media\levels\level1\output.xml"
 
 # Función que hace la exportación de un tipo de elemento
 # que es recibido por parámetro
@@ -48,6 +48,8 @@ def exportElements(element):
             rw,rx,ry,rz = el.rotation_quaternion
             print (ID2 + '<rw>%.2f</rw> <rx>%.2f</rx> <ry>%.2f</ry> <rz>%.2f</rz>' % (round(rw,2), round(rx,2),round(ry,2),round(rz,2)))
             print(ID1 + "</element>")         
+           
+         
             
 # ################################################################################
 # Exportar!!!!
@@ -63,6 +65,7 @@ print(ID1 + "<level>"+str(LEVEL)+"</level>")
 
 exportElements("plane")
 exportElements("player")
+exportElements("cCamera")
 
 
 

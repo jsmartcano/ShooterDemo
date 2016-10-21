@@ -87,11 +87,20 @@ function LoadLevelState() {
 						game.assets.push(asset);
 					});
 					break;
-				
+				case "CCAMERA":					
+					var camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 1, 10000);
+					var asset = new AssetClass();
+					asset.three = camera;
+					asset.x = x; asset.y = z; asset.z = -y;
+					asset.rx = rx; asset.ry = rz; asset.rz = -ry; asset.rw = rw;
+					asset.type = type;
+					asset.index = index;
+					game.cameras.push(asset);
+					break;
 			}
 		});
 		
-		loadCameras();
+		
 	}		
 
 	function loadCameras() {

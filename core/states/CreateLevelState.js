@@ -66,19 +66,15 @@ function CreateLevelState() {
 		game.camera.position.y = game.cameras[0].y;
 		game.camera.position.z = game.cameras[0].z;
 		
+		game.camera.rotateX(game.cameras[0].rx);
+		game.camera.rotateY(game.cameras[0].ry);
+		game.camera.rotateZ(game.cameras[0].rz);
 		
-		
-				
-//		var q = new THREE.Quaternion(game.cameras[0].rx,
-//									 game.cameras[0].ry,
-//									 game.cameras[0].rz,
-//									 game.cameras[0].rw);
-//		
-////	
-////				
-//		game.camera.setRotationFromQuaternion(q);
-//		game.camera.rotateX(-90);
-//		game.camera.lookAt(new THREE.Vector3(0,0,0));
+		var q = new THREE.Quaternion(game.cameras[0].rx,
+									 game.cameras[0].ry,
+									 game.cameras[0].rz,
+									 game.cameras[0].rw);	
+		game.camera.setRotationFromQuaternion(q);
 		
 		// Assets
 		for (var i=0;i<game.assets.length;i++){
@@ -90,9 +86,9 @@ function CreateLevelState() {
 			threeAsset.scene.position.y = asset.y;
 			threeAsset.scene.position.z = asset.z;
 
+			
 			var q = new THREE.Quaternion(asset.rx,asset.ry,asset.rz,asset.rw);
-			threeAsset.scene.setRotationFromQuaternion(q);	
-			//threeAsset.scene.updateMatrix();			
+			threeAsset.scene.setRotationFromQuaternion(q);
 		}
 
 		// Go!
