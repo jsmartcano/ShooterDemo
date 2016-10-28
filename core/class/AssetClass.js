@@ -24,9 +24,3 @@ function AssetClass() {
 	};
 }
 
-function seFeliz() {
-    var a = 1;
-    this.prueba = function () {
-        return a;
-    }
-}
