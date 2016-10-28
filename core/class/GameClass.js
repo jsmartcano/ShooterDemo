@@ -19,6 +19,7 @@ function GameClass()
 		return level;
 	}
 	
+	
 	return {
 		getCurrentLevel: _getCurrentLevel,
 		scene: _scene,
@@ -27,6 +28,5 @@ function GameClass()
 		assets: _assets,
 		cameras: _cameras
 	};
-	
 	
 }

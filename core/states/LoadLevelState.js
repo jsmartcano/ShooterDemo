@@ -71,6 +71,7 @@ function LoadLevelState() {
 						asset.index = index;
 						asset.mesh = mesh;
 						game.assets.push(asset);
+                        
 					});
 					break;
 				case "PLAYER":

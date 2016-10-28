@@ -23,3 +23,10 @@ function AssetClass() {
 		rw: _rw
 	};
 }
+
+function seFeliz() {
+    var a = 1;
+    this.prueba = function () {
+        return a;
+    }
+}

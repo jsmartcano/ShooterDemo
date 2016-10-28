@@ -40,6 +40,7 @@ function CreateLevelState() {
 		 game.renderer.setPixelRatio( window.devicePixelRatio );
 		 game.renderer.setClearColor(0x033000);
 		 game.renderer.setSize(window.innerWidth, window.innerHeight);
+
 		 
 		 window.removeEventListener("resize",resizeFunction);
 		 window.addEventListener("resize", resizeFunction);
@@ -85,12 +86,11 @@ function CreateLevelState() {
 			threeAsset.scene.position.x = asset.x;
 			threeAsset.scene.position.y = asset.y;
 			threeAsset.scene.position.z = asset.z;
-
-			
+         			
 			var q = new THREE.Quaternion(asset.rx,asset.ry,asset.rz,asset.rw);
-			threeAsset.scene.setRotationFromQuaternion(q);
+			threeAsset.scene.setRotationFromQuaternion(q);        
 		}
-
+		
 		// Go!
 		game.StatesManager.changeState("PlayState");
 		
@@ -118,7 +118,7 @@ function CreateLevelState() {
 		return "CreateLevelState";
 	};
 	
-	
+
 	
 	return {
 		enter: _enter,
@@ -129,4 +129,3 @@ function CreateLevelState() {
 	
 		
 };
-

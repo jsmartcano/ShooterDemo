@@ -17,12 +17,11 @@ $(document).ready(function() {
 	game.DebugManager =  new DebugManager();
 	game.StatesManager = new StatesManager();
 	game.RouteManager = new RouteManager();
-
-			
+    
 	// Start!!
 	game.StatesManager.start("InitializeState");
-	
-	
+
+
 });
 
 
