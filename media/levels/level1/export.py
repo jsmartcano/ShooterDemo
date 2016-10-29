@@ -27,9 +27,9 @@ def getCurrentPath():
     #    folder = folder + arr[i] + "/"
     #return folder + "output.xml"
     
-    return "C:\wamp64\www\ShooterDemo\media\levels\level1\output.xml"
+    #return "C:\wamp64\www\ShooterDemo\media\levels\level1\output.xml"
     
-    #return "C:\wamp\www\ShooterDemo\media\levels\level1\output.xml"
+    return "C:\wamp\www\ShooterDemo\media\levels\level1\output.xml"
 
 # Función que hace la exportación de un tipo de elemento
 # que es recibido por parámetro

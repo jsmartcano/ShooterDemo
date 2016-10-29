@@ -8,12 +8,12 @@
   </element>
   <element id="player" index="1" type="PLAYER">
     <mesh>player</mesh>
-    <x>0.00</x> <y>9.71</y> <z>2.46</z>
-    <rw>0.91</rw> <rx>0.00</rx> <ry>-0.13</ry> <rz>0.00</rz>
+    <x>0.00</x> <y>0.00</y> <z>0.92</z>
+    <rw>1.00</rw> <rx>0.00</rx> <ry>0.00</ry> <rz>0.00</rz>
   </element>
   <element id="cCamera" index="1" type="CCAMERA">
     <mesh>cCamera</mesh>
-    <x>17.11</x> <y>-6.98</y> <z>10.49</z>
-    <rw>0.95</rw> <rx>-0.18</rx> <ry>0.04</ry> <rz>0.23</rz>
+    <x>4.48</x> <y>0.27</y> <z>20.00</z>
+    <rw>0.58</rw> <rx>-0.41</rx> <ry>-0.41</ry> <rz>0.57</rz>
   </element>
 </map>

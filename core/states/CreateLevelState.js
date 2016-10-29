@@ -29,14 +29,14 @@ function CreateLevelState() {
 		 var axes = new THREE.AxisHelper(100);
 		 game.scene.add(axes);		
 		 
-		 var ambientLight = new THREE.AmbientLight(0x404040);
+		 var ambientLight = new THREE.AmbientLight(0x404040,3);
 		 ambientLight.position.x = 0;
-		 ambientLight.position.y = 50;
+		 ambientLight.position.y = 20;
 		 ambientLight.position.z = 0;
 		 game.scene.add(ambientLight);
 			
-		 //game.renderer = new THREE.WebGLRenderer();
-		 game.renderer = new THREE.WebGLRenderer();
+		 game.renderer = new THREE.CanvasRenderer();
+		// game.renderer = new THREE.WebGLRenderer();
 		 game.renderer.setPixelRatio( window.devicePixelRatio );
 		 game.renderer.setClearColor(0x033000);
 		 game.renderer.setSize(window.innerWidth, window.innerHeight);
@@ -97,18 +97,19 @@ function CreateLevelState() {
 	}
 	
 	
-	function rotateObject(object,degreeX=0, degreeY=0, degreeZ=0)
-	{
+	//function rotateObject(object,degreeX, degreeY, degreeZ)
+	//{
 
-		   degreeX = (degreeX * Math.PI)/180;
-		   degreeY = (degreeY * Math.PI)/180;
-		   degreeZ = (degreeZ * Math.PI)/180;
 
-		   object.rotateX(degreeX);
-		   object.rotateY(degreeY);
-		   object.rotateZ(degreeZ);
+	//	   degreeX = (degreeX * Math.PI)/180;
+	//	   degreeY = (degreeY * Math.PI)/180;
+	//	   degreeZ = (degreeZ * Math.PI)/180;
 
-		};
+	//	   object.rotateX(degreeX);
+	//	   object.rotateY(degreeY);
+	//	   object.rotateZ(degreeZ);
+
+	//	};
 
 
 	
