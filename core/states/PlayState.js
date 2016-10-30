@@ -20,7 +20,7 @@ function PlayState() {
 		
 	function animate() {
 		requestAnimationFrame(animate);
-		game.renderer.render(game.scene,game.camera);
+		game.renderer.render(game.scene,game.camera.three);
 	}	
 	
 	function _toString() {

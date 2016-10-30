@@ -35,8 +35,8 @@ function CreateLevelState() {
 		 ambientLight.position.z = 0;
 		 game.scene.add(ambientLight);
 			
-		 game.renderer = new THREE.CanvasRenderer();
-		// game.renderer = new THREE.WebGLRenderer();
+		// game.renderer = new THREE.CanvasRenderer();
+		 game.renderer = new THREE.WebGLRenderer();
 		 game.renderer.setPixelRatio( window.devicePixelRatio );
 		 game.renderer.setClearColor(0x033000);
 		 game.renderer.setSize(window.innerWidth, window.innerHeight);
@@ -52,8 +52,8 @@ function CreateLevelState() {
 		var WIDTH = window.innerWidth;
 		var HEIGHT = window.innerHeight;
 		game.renderer.setSize(WIDTH, HEIGHT);
-		game.camera.aspect = WIDTH / HEIGHT;
-		game.camera.updateProjectionMatrix();		
+		game.camera.three.aspect = WIDTH / HEIGHT;
+		game.camera.three.updateProjectionMatrix();		
 	}
 	
 	function setupWORLD() {
@@ -62,20 +62,19 @@ function CreateLevelState() {
 		game.scene.add(helper);
 		
 		// Camera
-		game.camera = game.cameras[0].three;
-		game.camera.position.x = game.cameras[0].x;
-		game.camera.position.y = game.cameras[0].y;
-		game.camera.position.z = game.cameras[0].z;
+		game.camera = game.cameras[0];
+		var cf = game.cameras[0].track.getCurrentFrame();
+
+		game.camera.three.position.x = cf.position.x;
+		game.camera.three.position.y = cf.position.y;
+		game.camera.three.position.z = cf.position.z;
+				
+		var q = new THREE.Quaternion(cf.rotationQ._x,
+									 cf.rotationQ._y,
+									 cf.rotationQ._z,
+									 cf.rotationQ._w);
+		game.camera.three.setRotationFromQuaternion(q);
 		
-		game.camera.rotateX(game.cameras[0].rx);
-		game.camera.rotateY(game.cameras[0].ry);
-		game.camera.rotateZ(game.cameras[0].rz);
-		
-		var q = new THREE.Quaternion(game.cameras[0].rx,
-									 game.cameras[0].ry,
-									 game.cameras[0].rz,
-									 game.cameras[0].rw);	
-		game.camera.setRotationFromQuaternion(q);
 		
 		// Assets
 		for (var i=0;i<game.assets.length;i++){
@@ -83,11 +82,14 @@ function CreateLevelState() {
 			var threeAsset = asset.three;
 
 			game.scene.add(threeAsset.scene);
-			threeAsset.scene.position.x = asset.x;
-			threeAsset.scene.position.y = asset.y;
-			threeAsset.scene.position.z = asset.z;
+			threeAsset.scene.position.x = asset.position.x;
+			threeAsset.scene.position.y = asset.position.y;
+			threeAsset.scene.position.z = asset.position.z;
          			
-			var q = new THREE.Quaternion(asset.rx,asset.ry,asset.rz,asset.rw);
+			var q = new THREE.Quaternion(asset.rotationQ._x,
+                                        asset.rotationQ._y,
+                                        asset.rotationQ._z,
+                                        asset.rotationQ._w);
 			threeAsset.scene.setRotationFromQuaternion(q);        
 		}
 		

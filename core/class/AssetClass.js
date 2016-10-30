@@ -2,25 +2,44 @@ function AssetClass() {
 	var _three = null;
 	var _type = null;
 	var _mesh = null;
-	var _x = 0;
-	var _y = 0;
-	var _z = 0;
-	var _rx = 0;
-	var _ry = 0;
-	var _rz = 0;
-	var _rw = 0;
-	
+	var _position = new THREE.Vector3(0,0,0);
+	var _rotationQ = new THREE.Quaternion(0,0,0,1);
+	var _track = null;
+
 	return {
 		three: _three,
 		type: _type,
 		mesh: _mesh,
-		x: _x,
-		y: _y,
-		z: _z,
-		rx: _rx,
-		ry: _ry,
-		rz: _rz,
-		rw: _rw
+		position: _position,
+        rotationQ: _rotationQ,		
+		track: _track
 	};
+}
+
+function TrackClass() {
+    var _frames = new Array();
+    var _currentFrame = 0;
+
+    function _getCurrentFrame() {
+        return _frames[_currentFrame];
+    };
+
+    return {
+        frames: _frames,
+        currentFrame: _currentFrame,
+        getCurrentFrame: _getCurrentFrame
+    };
+}
+
+function FrameClass() {
+    var _index = 0;
+    var _position = new THREE.Vector3(0,0,0);
+    var _rotationQ = new THREE.Quaternion(0, 0, 0, 1);
+
+    return {
+        index: _index,
+        position: _position,
+        rotationQ: _rotationQ
+    };
 }
 

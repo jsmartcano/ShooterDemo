@@ -17,7 +17,7 @@ from bpy import *
 ID1 = ' '*2    # Identadores para el xml
 ID2 = ' '*4    # Solo con proposito de obtener un xml "bonito"
 ID3 = ' '*6
-ID5 = ' '*8
+ID4 = ' '*8
 
 # ----------------------------------------------------------------------
 def getCurrentPath():
@@ -44,12 +44,36 @@ def exportElements(element):
             print(ID1 + '<element id="'+element+'" index="'+str(elCounter)+'" type="'+element.upper()+'">')
             print(ID2 + "<mesh>"+element+"</mesh>")  
             x,y,z = el.location
-            print (ID2 + '<x>%.2f</x> <y>%.2f</y> <z>%.2f</z>' % (round(x,2),round(y,2),round(z,2)))
-            rw,rx,ry,rz = el.rotation_quaternion
-            print (ID2 + '<rw>%.2f</rw> <rx>%.2f</rx> <ry>%.2f</ry> <rz>%.2f</rz>' % (round(rw,2), round(rx,2),round(ry,2),round(rz,2)))
+            print (ID2 + '<x>%f</x> <y>%f</y> <z>%f</z>' % (x,y,z))
+            qw,qx,qy,qz = el.rotation_quaternion
+            print (ID2 + '<rx>%f</rx> <ry>%f</ry> <rz>%f</rz> <rw>%f</rw>' % (qx,qy,qz,qw))
             print(ID1 + "</element>")         
            
          
+# Función para exportar las cámaras
+# ------------------------------------------------------------------------
+def exportCameras():         
+    obs = [ob for ob in bpy.data.objects if ob.name.find("cCamera") != -1]
+   
+    for camera in obs:
+    	camId = camera.name
+    	camName = camId.split("_")[0]
+    	camIndex = int(camId.split("_")[1])
+    	camFrames = int (camId.split("_")[2])
+    	print (ID1 + '<element index="%i" fps="%i" type="CCAMERA">' % (camIndex, bpy.data.scenes['Scene'].render.fps))
+    	print (ID2 + '<path>')
+    	for i in range (camFrames):
+    		cFrame = bpy.data.scenes['Scene'].frame_current
+    		bpy.data.scenes['Scene'].frame_set(cFrame+1)
+    		x,y,z = camera.matrix_world.translation
+    		qw,qx,qy,qz = camera.matrix_world.to_quaternion()
+    		print (ID3 + '<frame index="%i">' % (i+1))
+    		print (ID4 + '<x>%f</x> <y>%f</y> <z>%f</z>' % (x,y,z))
+    		print (ID4 + '<rx>%f</rx> <ry>%f</ry> <rz>%f</rz> <rw>%f</rw>' % (qx,qy,qz,qw))
+    		print (ID3 + '</frame>')
+    	print (ID2 + '</path>')
+    	print (ID1 + '</element>')
+
             
 # ################################################################################
 # Exportar!!!!
@@ -65,7 +89,7 @@ print(ID1 + "<level>"+str(LEVEL)+"</level>")
 
 exportElements("plane")
 exportElements("player")
-exportElements("cCamera")
+exportCameras()
 
 
 

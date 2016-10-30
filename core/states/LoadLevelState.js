@@ -41,110 +41,138 @@ function LoadLevelState() {
 		});
 	}
 	
+    // -----------------------------------------------------------------------
 	function parse(data) {
 		
-		var levelPath = game.RouteManager.getLevels() + "level" + game.getCurrentLevel();
-		var modelsPath = game.RouteManager.getModels();
+		
 		
 		$(data).find("element").each(function(index) {
 			var type = $(this).attr("type");
-			var index = parseInt($(this).attr("index"),10);
-			var mesh = $(this).children("mesh").text();
-			var x = parseFloat($(this).children("x").text());
-			var y = parseFloat($(this).children("y").text());
-			var z = parseFloat($(this).children("z").text());
-			var rx = parseFloat($(this).children("rx").text());
-			var ry = parseFloat($(this).children("ry").text());
-			var rz = parseFloat($(this).children("rz").text());
-			var rw = parseFloat($(this).children("rw").text());
+			
+
 			switch (type)
 			{
-				case "PLANE":
-					var loader = new THREE.ColladaLoader();
-					loader.options.convertUpAxis = true;
-					loader.load(levelPath + "/" + mesh + ".dae", function(result) {						
-						var asset = new AssetClass();
-						asset.three = result;
-						asset.x = x; asset.y = z; asset.z = -y;
-						asset.rx = rx; asset.ry = rz; asset.rz = -ry; asset.rw = rw;
-						asset.type = type;
-						asset.index = index;
-						asset.mesh = mesh;
-						game.assets.push(asset);
-                        
-					});
+			    case "PLANE":
+			        createLevelAsset($(this));					
 					break;
-				case "PLAYER":
-					var loader = new THREE.ColladaLoader();
-					loader.options.convertUpAxis = true;
-					loader.load(modelsPath + type.toLowerCase() + "/" + mesh + ".dae", function(result) {						
-						var asset = new AssetClass();
-						asset.three = result;
-						asset.x = x; asset.y = z; asset.z = -y;
-						asset.rx = rx; asset.ry = rz; asset.rz = -ry; asset.rw = rw;
-						asset.type = type;
-						asset.index = index;
-						asset.mesh = mesh;
-						game.assets.push(asset);
-					});
+			    case "PLAYER":
+			        createAsset($(this));
 					break;
 				case "CCAMERA":					
-					var camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 1, 10000);
-					var asset = new AssetClass();
-					asset.three = camera;
-					asset.x = x; asset.y = z; asset.z = -y;
-					asset.rx = rx; asset.ry = rz; asset.rz = -ry; asset.rw = rw;
-					asset.type = type;
-					asset.index = index;
-					game.cameras.push(asset);
+				    createCamera($(this));
 					break;
 			}
 		});
 		
 		
-	}		
-
-	function loadCameras() {
-		var levelPath = game.RouteManager.getLevels() + "level" + game.getCurrentLevel();
-		var loader = new THREE.ColladaLoader();
-		loader.options.convertUpAxis = true;
-		loader.load(levelPath + "/cameras.dae", function(result) {
-			
-			for (var i=0; i<result.scene.children.length; i++) {
-				var type = "camera";
-				var index = i;
-				var item = result.scene.children[i];
-				var x = item.position.x;
-				var y = item.position.y;
-				var z = item.position.z;
-				var rx = item.quaternion._x;
-				var ry = item.quaternion._y;
-				var rz = item.quaternion._z;
-				var rw = item.quaternion._w;
-				
-				var camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 1, 10000);
-				var asset = new AssetClass();
-				asset.three = camera;
-				asset.x = x; asset.y = y; asset.z = z;
-				asset.rx = rx; asset.ry = ry; asset.rz = rz; asset.rw = rw;
-				asset.type = type;
-				asset.index = index;
-				game.cameras.push(asset);
-			};
-			
-				
-			
-		
-
-		});
 	}
+
+    // -----------------------------------------------------------------------
+	function createCamera(element) {
+
+	    var asset = new AssetClass();
+	    asset.type = $(this).attr("type");
+	    asset.index = parseInt($(this).attr("index"), 10);
+        	    
+	    var camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 1, 10000);
+	    asset.three = camera;
+	    asset.track = new TrackClass();
+	            
+	    element.find("frame").each(function (index) {
+
+	        var f = new FrameClass();
+
+            
+
+	        f.position = new THREE.Vector3(parseFloat($(this).children("x").text()),
+	                                         parseFloat($(this).children("z").text()),
+	                                         -parseFloat($(this).children("y").text()));
+
+	        f.rotationQ = new THREE.Quaternion(parseFloat($(this).children("rx").text()),
+	                                             parseFloat($(this).children("rz").text()),
+	                                             -parseFloat($(this).children("ry").text()),
+	                                             parseFloat($(this).children("rw").text()));
+
+	        f.index = parseInt($(this).attr("index"), 10);
+	        asset.track.frames.push(f);
+
+	    });
+
+	   
+
+	    game.cameras.push(asset);
+	};
+
+    // -----------------------------------------------------------------------
+	function createLevelAsset(element) {
+
+	    var levelPath = game.RouteManager.getLevels() + "level" + game.getCurrentLevel();
+	    var modelsPath = game.RouteManager.getModels();
+	    var mesh = element.children("mesh").text();
+	    var asset = new AssetClass();
+	    var loader = new THREE.ColladaLoader();
+
+	    asset.position = new THREE.Vector3(parseFloat(element.children("x").text()),
+                                         parseFloat(element.children("z").text()),
+                                         -parseFloat(element.children("y").text()));
+
+	    asset.rotationQ = new THREE.Quaternion(parseFloat(element.children("rx").text()),
+                                             parseFloat(element.children("rz").text()),
+                                             -parseFloat(element.children("ry").text()),
+                                             parseFloat(element.children("rw").text()));
+
+	    asset.type = element.attr("type");
+	    asset.index = parseInt(element.attr("index"), 10);
+
+	    loader.options.convertUpAxis = true;
+	 
+	    loader.load(levelPath + "/" + mesh + ".dae", function (result) {
+	        asset.three = result;
+	        asset.mesh = mesh;
+	        game.assets.push(asset);
+
+	    });
+	};
+
+    // -----------------------------------------------------------------------
+	function createAsset(element) {
+
+	    var levelPath = game.RouteManager.getLevels() + "level" + game.getCurrentLevel();
+	    var modelsPath = game.RouteManager.getModels();
+	    var mesh = element.children("mesh").text();
+	    var asset = new AssetClass();
+	    var loader = new THREE.ColladaLoader();
+
+	    asset.position = new THREE.Vector3(parseFloat(element.children("x").text()),
+                                         parseFloat(element.children("z").text()),
+                                         -parseFloat(element.children("y").text()));
+
+	    asset.rotationQ = new THREE.Quaternion(parseFloat(element.children("rx").text()),
+                                             parseFloat(element.children("rz").text()),
+                                             -parseFloat(element.children("ry").text()),
+                                             parseFloat(element.children("rw").text()));
+
+	    asset.type = element.attr("type");
+	    asset.index = parseInt(element.attr("index"), 10);
+
+	    loader.options.convertUpAxis = true;
+
+	    loader.load(modelsPath + asset.type + "/" + mesh + ".dae", function (result) {
+	        asset.three = result;
+	        asset.mesh = mesh;
+	        game.assets.push(asset);
+
+	    });
+	};
+
 	
+    // -----------------------------------------------------------------------
 	function _toString() {
 		return "LoadLevelState";
 	};
 	
 	
-	
+    // -----------------------------------------------------------------------
 	return {
 		enter: _enter,
 		toString: _toString,
