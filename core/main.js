@@ -19,7 +19,7 @@ $(document).ready(function() {
 	game.RouteManager = new RouteManager();
     
 	// Start!!
-	game.StatesManager.start("InitializeState");
+	game.StatesManager.start("common/InitializeState");
 
 
 });

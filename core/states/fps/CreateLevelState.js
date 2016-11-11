@@ -94,7 +94,7 @@ function CreateLevelState() {
 		}
 		
 		// Go!
-		game.StatesManager.changeState("PlayState");
+		game.StatesManager.changeState("fps/PlayState");
 		
 	}
 	

@@ -4,6 +4,8 @@
 */
 function LoadLevelState() {
 	
+    var levelType = null;       // Tipo de nivel a cargar
+
 	/**
 	 * Salida del estado
 	 */
@@ -24,8 +26,16 @@ function LoadLevelState() {
 	}
 	
 	function loadContentComplete() {
-		game.DebugManager.say("Load level complete");
-		game.StatesManager.changeState("CreateLevelState");
+	    game.DebugManager.say("Load level complete");
+
+	    switch (levelType) {
+	        case "FPS":
+	            game.StatesManager.changeState("fps/CreateLevelState");
+	            break;
+	        default:
+	            game.DebugManager.say("Type level incorrect");
+	    }
+		
 	}
 	
 	function loadContent(file,callback) {
@@ -45,7 +55,7 @@ function LoadLevelState() {
 	function parse(data) {
 		
 		
-		
+        // Assets		
 		$(data).find("element").each(function(index) {
 			var type = $(this).attr("type");
 			
@@ -63,6 +73,11 @@ function LoadLevelState() {
 					break;
 			}
 		});
+		
+        // Type
+		$(data).find("levelType").each(function (index) {
+		    levelType = $(this).text().toUpperCase();
+		 });
 		
 		
 	}

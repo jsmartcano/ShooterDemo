@@ -15,7 +15,7 @@ function InitializeState() {
 			
 	function _enter() {
 		game.DebugManager.say(_toString() + " enter");
-		game.StatesManager.changeState("LoadLevelState");
+		game.StatesManager.changeState("common/LoadLevelState");
 	};
 		
 	function _toString() {
