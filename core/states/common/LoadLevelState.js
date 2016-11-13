@@ -4,7 +4,11 @@
 */
 function LoadLevelState() {
 	
-    var levelType = null;       // Tipo de nivel a cargar
+    var levelType = null;       // Tipo de nivel a cargar    
+    
+    var loaderInterval;
+    var totalAssets = 0;        // Cuenta el número de assets que se han mandado cargar
+    var totalCameras = 0;       // Cuenta el número de cámaras que se han mandado cargar
 
 	/**
 	 * Salida del estado
@@ -22,9 +26,11 @@ function LoadLevelState() {
 	function loadLevel() {
 		var levelFile = game.RouteManager.getLevels() + "level" + game.getCurrentLevel() + "/output.xml";
 		game.DebugManager.say("Loading level ... " + levelFile);
-		loadContent(levelFile, loadContentComplete);
+		loadContent(levelFile);
+
+		
 	}
-	
+
 	function loadContentComplete() {
 	    game.DebugManager.say("Load level complete");
 
@@ -32,23 +38,44 @@ function LoadLevelState() {
 	        case "FPS":
 	            game.StatesManager.changeState("fps/CreateLevelState");
 	            break;
+	        case "TABLE":
+	            game.StatesManager.changeState("table/CreateLevelState");
+	            break;
 	        default:
 	            game.DebugManager.say("Type level incorrect");
 	    }
 		
 	}
 	
-	function loadContent(file,callback) {
+	function loadContent(file) {
 		$.ajax({
 			url: file,
 			async: false,
 			dataType: (BrowserDetect.browser == "EXPLORER") ? 'text' : 'xml', // Reconocemos el browser.
-				    success: function(pData){ 
-				    	var data = game.Utils.parseXML(pData);
-				    	parse(data);
-				    	callback();
-				    }
+			success: function(pData){ 
+			  
+				var data = game.Utils.parseXML(pData);
+				parse(data);
+
+			}
 		});
+
+		loaderInterval = setInterval(function () {
+		    var result = false;
+
+		    if (
+                game.assets.length == totalAssets &&
+                game.cameras.length == totalCameras
+            ) { result = true; }
+
+
+		    if (result == true) {
+		        clearInterval(loaderInterval);
+		        loadContentComplete();
+		    } else {
+		        game.DebugManager.say("Loading assets...");
+		    }
+		}, 100);
 	}
 	
     // -----------------------------------------------------------------------
@@ -62,14 +89,18 @@ function LoadLevelState() {
 
 			switch (type)
 			{
-			    case "PLANE":
-			        createLevelAsset($(this));					
+			    case "PLANE":             
+			        createLevelAsset($(this));
+			        totalAssets++;
 					break;
 			    case "PLAYER":
+			    case "CARCASA":
 			        createAsset($(this));
+			        totalAssets++;
 					break;
 				case "CCAMERA":					
 				    createCamera($(this));
+				    totalCameras++;
 					break;
 			}
 		});
@@ -89,7 +120,7 @@ function LoadLevelState() {
 	    asset.type = $(this).attr("type");
 	    asset.index = parseInt($(this).attr("index"), 10);
         	    
-	    var camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 1, 10000);
+	    var camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 1, 10000);
 	    asset.three = camera;
 	    asset.track = new TrackClass();
 	            
@@ -141,7 +172,7 @@ function LoadLevelState() {
 
 	    loader.options.convertUpAxis = true;
 	 
-	    loader.load(levelPath + "/" + mesh + ".dae", function (result) {
+	    loader.load(levelPath + "/" + mesh.toLowerCase() + ".dae", function (result) {
 	        asset.three = result;
 	        asset.mesh = mesh;
 	        game.assets.push(asset);
@@ -172,12 +203,13 @@ function LoadLevelState() {
 
 	    loader.options.convertUpAxis = true;
 
-	    loader.load(modelsPath + asset.type + "/" + mesh + ".dae", function (result) {
+	    loader.load(modelsPath + asset.type + "/" + mesh.toLowerCase() + ".dae", function (result) {
 	        asset.three = result;
 	        asset.mesh = mesh;
 	        game.assets.push(asset);
-
 	    });
+
+	 
 	};
 
 	

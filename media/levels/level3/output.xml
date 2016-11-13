@@ -1,0 +1,18 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<map>
+  <level>3</level>
+  <levelType>FPS</levelType>
+  <element id="carcasa" index="1" type="CARCASA">
+    <mesh>carcasa</mesh>
+    <x>-0.000003</x> <y>0.000140</y> <z>1.716717</z>
+    <rx>0.000000</rx> <ry>0.000000</ry> <rz>0.000000</rz> <rw>1.000000</rw>
+  </element>
+  <element index="1" fps="24" type="CCAMERA">
+    <path>
+      <frame index="1">
+        <x>0.000000</x> <y>0.000000</y> <z>0.775509</z>
+        <rx>0.000000</rx> <ry>0.000000</ry> <rz>0.000000</rz> <rw>1.000000</rw>
+      </frame>
+    </path>
+  </element>
+</map>
