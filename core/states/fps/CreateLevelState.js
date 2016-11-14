@@ -29,9 +29,18 @@ function CreateLevelState() {
 		 var axes = new THREE.AxisHelper(100);
 		 game.scene.add(axes);		
 		 
-		 var ambientLight = new THREE.AmbientLight(0x404040,3);
+		 var directionalLight = new THREE.DirectionalLight(0x404040, 1);
+		 directionalLight.castShadow = true;
+		 directionalLight.shadowDarkness = 1;
+		 directionalLight.position.x = 4;
+		 directionalLight.position.y = 4;
+		 directionalLight.position.z = 0;		 
+		 game.scene.add(directionalLight);
+
+         // Luz ambiental
+		 var ambientLight = new THREE.AmbientLight(0x404040, 1.2);		 
 		 ambientLight.position.x = 0;
-		 ambientLight.position.y = 20;
+		 ambientLight.position.y = 2;
 		 ambientLight.position.z = 0;
 		 game.scene.add(ambientLight);
 			
@@ -40,6 +49,8 @@ function CreateLevelState() {
 		 game.renderer.setPixelRatio( window.devicePixelRatio );
 		 game.renderer.setClearColor(0x033000);
 		 game.renderer.setSize(window.innerWidth, window.innerHeight);
+		 game.renderer.shadowMapEnabled = true;
+		 game.renderer.shadowMapType = THREE.PCFSoftShadowMap;
 
 		 
 		 window.removeEventListener("resize",resizeFunction);

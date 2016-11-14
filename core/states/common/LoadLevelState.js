@@ -173,6 +173,8 @@ function LoadLevelState() {
 	    loader.options.convertUpAxis = true;
 	 
 	    loader.load(levelPath + "/" + mesh.toLowerCase() + ".dae", function (result) {
+	        result.castShadow = true;
+	        result.receiveShadow = true;
 	        asset.three = result;
 	        asset.mesh = mesh;
 	        game.assets.push(asset);
@@ -204,6 +206,8 @@ function LoadLevelState() {
 	    loader.options.convertUpAxis = true;
 
 	    loader.load(modelsPath + asset.type + "/" + mesh.toLowerCase() + ".dae", function (result) {
+	        result.castShadow = true;
+	        result.receiveShadow = true
 	        asset.three = result;
 	        asset.mesh = mesh;
 	        game.assets.push(asset);
