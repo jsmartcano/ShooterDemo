@@ -6,7 +6,7 @@
 
 function GameClass()
 {
-    var level = 3;
+    var level = 1;
 	
 	var _cameras = new Array();
 	var _assets = new Array();
